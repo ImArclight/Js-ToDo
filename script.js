@@ -1,3 +1,5 @@
+//input all id from html 
+
 const taskForm = document.getElementById('task-form')
 const confirmCloseDialog = document.getElementById('confirm-close-dialog')
 const openTaskFormBtn = document.getElementById('open-task-form-btn')
@@ -11,9 +13,14 @@ const dateInput = document.getElementById('date-input')
 const descriptionInput = document.getElementById('description-input')
 
 
+// create taskdata container array amd currentTask Object
+
 const taskData = []
 
 let currentTask = {}
+
+
+// Activate button using addEventListener
 
 openTaskFormBtn.addEventListener('click', () => {
     taskForm.classList.toggle('hidden')
@@ -36,8 +43,13 @@ taskForm.addEventListener('submit', (e) => {
     e.preventDefault()
 }) 
 
+
+//find the same data index
+
 const dataArrIndex = taskData.findIndex((item) => item.id === currentTask.id)
 
+
+//retrieve values from titleInput, dateInput, and descInput
 
 const taskObj = {
     id: `${titleInput.value.toLowerCase().split(' ').join('-')}-${Date.now()}`,
@@ -47,4 +59,24 @@ const taskObj = {
 }
 
 
+// if statement for adding smth into new taskData 
 
+if (dataArrIndex === -1){
+    taskData.unshift(taskObj)
+}
+
+
+// display the task on the page using forEach
+
+taskData.forEach(({id, title, date, description}) => {
+    (tasksContainer.innerHTML += `
+        <div class="task" id="${id}" > 
+            <p><strong>Title: </strong>${title}</p>
+            <p><strong>Date: </strong>${date}</p>
+            <p><strong>Description:</strong> ${description}</p>
+            <button type="button" class="btn">Edit</button>
+            <button type="button" class="btn">Delete</button>
+
+        </div>
+    `)
+})
